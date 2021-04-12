@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/oscars/new" method="POST">
+    <div class="row">
+        <div class="col">
+            <label for="Indx">Indx</label>
+            <input id="Indx" type="text" class="form-control" placeholder="Indx" name="Indx">
+        </div>
+        <div class="col">
+            <label for="Movie">Movie</label>
+            <input id="Movie" type="text" class="form-control" placeholder="Movie"
+                   name="Movie">
+        </div>
+        <div class="col">
+            <label for="Names">Name</label>
+            <input id="Names" type="text" class="form-control" placeholder="Names" name="Names">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="Years">Years</label>
+            <input id="Years" type="text" class="form-control" placeholder="Years" name="Years">
+        </div>
+        <div class="col">
+            <label for="Ages">Ages</label>
+            <input id="Ages" type="text" class="form-control" placeholder="Ages" name="Ages">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label for="Column_6">Column_6</label>
+
+            <input id="Column_6" type="text" class="form-control" placeholder="Column_6"
+                   name="Column_6">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">Success</button>
+
+</form>
+
+{% endblock %}
