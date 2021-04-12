@@ -44,12 +44,12 @@ def form_edit_get(oscar_id):
 @app.route('/edit/<int:oscar_id>', methods=['POST'])
 def form_update_post(oscar_id):
     cursor = mysql.get_db().cursor()
-    inputData = (request.form.get('Indx'), request.form.get('Years'), request.form.get('Ages'),
-                 request.form.get('Names'), request.form.get('Movie'),
-                 request.form.get('Column_6'), oscar_id)
-    sql_update_query = """UPDATE tblOscarsImport t SET t.Indx = %s, t.Years = %s, t.Ages = %s, t.Names = 
-    %s, t.Movie = %s, t.Column_6 = %s,  WHERE t.id = %s """
-    cursor.execute(sql_update_query, inputData)
+    input_data = (request.form.get('Indx'), request.form.get('Years'), request.form.get('Ages'),
+                  request.form.get('Actor'), request.form.get('Movie'),
+                  request.form.get('Column_6'), oscar_id)
+    sql_update_query = """UPDATE tblOscarsImport t SET t.Indx = %s, t.Years = %s, t.Ages = %s, t.Actor = 
+    %s, t.Movie = %s, t.Column_6 = %s  WHERE t.id = %s """
+    cursor.execute(sql_update_query, input_data)
     mysql.get_db().commit()
     return redirect("/", code=302)
 
@@ -63,9 +63,9 @@ def form_insert_get():
 def form_insert_post():
     cursor = mysql.get_db().cursor()
     input_data = (request.form.get('Indx'), request.form.get('Years'), request.form.get('Ages'),
-                  request.form.get('Names'), request.form.get('Movie'),
+                  request.form.get('Actor'), request.form.get('Movie'),
                   request.form.get('Column_6'))
-    sql_insert_query = """INSERT INTO tblOscarsImport (Indx,Years,Ages,Names,Movie,Column_6,)VALUES(%s,%s,%s,%s,%s,%s)"""
+    sql_insert_query = """INSERT INTO tblOscarsImport (Indx,Years,Ages,Actor,Movie,Column_6)VALUES(%s,%s,%s,%s,%s,%s)"""
     cursor.execute(sql_insert_query, input_data)
     mysql.get_db().commit()
     return redirect("/", code=302)

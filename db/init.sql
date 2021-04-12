@@ -6,12 +6,12 @@ CREATE TABLE IF NOT EXISTS tblOscarsImport (
     `Indx` INT,
     `Years` INT,
     `Ages` INT,
-    `Names` VARCHAR(25) CHARACTER SET utf8,
+    `Actor` VARCHAR(25) CHARACTER SET utf8,
     `Movie` VARCHAR(34) CHARACTER SET utf8,
     `Column_6` VARCHAR(22) CHARACTER SET utf8,
     PRIMARY KEY (`id`)
 );
-INSERT INTO tblOscarsImport (Indx, Years, Ages, Names, Movie, Column_6) VALUES
+INSERT INTO tblOscarsImport (Indx, Years, Ages, Actor, Movie, Column_6) VALUES
     ( 1, 1928, 44,' "Emil Jannings"',' "The Last Command',' The Way of All Flesh"'),
     ( 2, 1929, 41,' "Warner Baxter"',' "In Old Arizona"',NULL),
     ( 3, 1930, 62,' "George Arliss"',' "Disraeli"',NULL),
