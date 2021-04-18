@@ -102,18 +102,41 @@ def api_retrieve(oscar_id) -> str:
 
 @app.route('/api/v1/oscars/', methods=['POST'])
 def api_add() -> str:
+
+    content = request.json
+
+    cursor = mysql.get_db().cursor()
+    inputData = (content['Indx'], content['Years'], content['Ages'],
+                 content['Actor'], content['Movie'],
+                 content['Column_6'])
+    sql_insert_query = """INSERT INTO tblOscarsImport (Indx,Years,Ages,Actor,Movie,Column_6) VALUES (%s, %s,%s, %s,%s, %s) """
+    cursor.execute(sql_insert_query, inputData)
+    mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
 
 
 @app.route('/api/v1/oscars/<int:oscar_id>', methods=['PUT'])
 def api_edit(oscar_id) -> str:
+    cursor = mysql.get_db().cursor()
+    content = request.json
+    inputData = (content['Indx'], content['Years'], content['Ages'],
+                 content['Actor'], content['Movie'],
+                 content['Column_6'], oscar_id)
+    sql_update_query = """UPDATE tblOscarsImport t SET t.Indx = %s, t.Years = %s, t.Ages = %s, t.Actor = 
+                %s, t.Movie = %s, t.Column_6 = %s WHERE t.id = %s """
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
 
 
 @app.route('/api/oscars/<int:oscar_id>', methods=['DELETE'])
 def api_delete(oscar_id) -> str:
+    cursor = mysql.get_db().cursor()
+    sql_delete_query = """DELETE FROM tblOscarsImport WHERE id = %s """
+    cursor.execute(sql_delete_query, oscar_id)
+    mysql.get_db().commit()
     resp = Response(status=210, mimetype='application/json')
     return resp
 
