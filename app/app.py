@@ -1,6 +1,5 @@
 from typing import List, Dict
 import simplejson as json
-import socketio as socketio
 from flask import Flask, request, Response, redirect
 from flask import render_template
 from flask_socketio import SocketIO
@@ -35,16 +34,16 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/session', methods=['GET', 'POST'])
+@app.route('/session')
 def sessions():
     return render_template('session.html')
 
-def messageReceived():
-    print('Message was received!')
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
 
-@socketio.on('my event', json, methods=['GET', 'POST'])
-def hendle_my_custom_event():
-    print('Received my event: ' + str(json))
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
 
 @app.route('/view/<int:oscar_id>', methods=['GET'])
