@@ -1,8 +1,9 @@
 from typing import List, Dict
 import simplejson as json
+import socketio as socketio
 from flask import Flask, request, Response, redirect
 from flask import render_template
-from flask_socketio import SocketIO
+from socketio import SocketIO
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
@@ -34,15 +35,15 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/session')
+@app.route('/session', methods=['GET', 'POST'])
 def sessions():
     return render_template('session.html')
 
-def messageReceived(methods=['GET', 'POST']):
+def messageReceived():
     print('Message was received!')
 
-@socketio.on('my event')
-def hendle_my_custom_event(json, methods=['GET', 'POST']):
+@socketio.on('my event', json, methods=['GET', 'POST'])
+def hendle_my_custom_event():
     print('Received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
 
