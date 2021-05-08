@@ -15,6 +15,10 @@ app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'OscarsMale'
 mysql.init_app(app)
 
+events = [
+
+]
+
 
 @app.route('/', methods=['GET'])
 def index():
@@ -57,6 +61,11 @@ def form_update_post(oscar_id):
 @app.route('/oscars/new', methods=['GET'])
 def form_insert_get():
     return render_template('new.html', title='New Oscars Form')
+
+
+@app.route('/oscars/calendar', methods=['GET'])
+def form_calendar_get():
+    return render_template('calendar.html', events=events, title='Calendar')
 
 
 @app.route('/oscars/new', methods=['POST'])
@@ -102,7 +111,6 @@ def api_retrieve(oscar_id) -> str:
 
 @app.route('/api/v1/oscars/', methods=['POST'])
 def api_add() -> str:
-
     content = request.json
 
     cursor = mysql.get_db().cursor()
