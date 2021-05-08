@@ -3,7 +3,7 @@ import simplejson as json
 import socketio as socketio
 from flask import Flask, request, Response, redirect
 from flask import render_template
-from socketio import SocketIO
+from flask-socketio import SocketIO
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
