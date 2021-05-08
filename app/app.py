@@ -1,11 +1,15 @@
 from typing import List, Dict
+import datetime
+import redis
 import simplejson as json
-from flask import Flask, request, Response, redirect
+from flask import Flask, request, Response, redirect, session, render_template
 from flask import render_template
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
+app.secret_key = 'asdf'
+r = redis.StrictRedis('redis', 6379, 0, charset='utf-8', decode_responses=True)
 mysql = MySQL(cursorclass=DictCursor)
 
 app.config['MYSQL_DATABASE_HOST'] = 'db'
@@ -22,6 +26,11 @@ events = [
     }
 ]
 
+def event_stream():
+    pubsub = r.pubsub(ignore_subscribe_messages=True)
+    pubsub.subscribe('chat')
+    for message in pubsub.listen():
+        yield 'data: %s\n\n' % message['data']
 
 @app.route('/', methods=['GET'])
 def index():
@@ -150,6 +159,34 @@ def api_delete(oscar_id) -> str:
     mysql.get_db().commit()
     resp = Response(status=210, mimetype='application/json')
     return resp
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session['user'] = request.form['user']
+        return redirect('/')
+    return render_template('login.html')
+
+
+@app.route('/post', methods=['POST'])
+def post():
+    message = request.form['message']
+    user = session.get('user', 'anonymous')
+    now = datetime.datetime.now().replace(microsecond=0).time()
+    r.publish('chat', '[%s] %s: %s' % (now.isoformat(), user, message))
+    return Response(status=204)
+
+
+@app.route('/stream')
+def stream():
+    return Response(event_stream(), mimetype="text/event-stream")
+
+
+@app.route('/')
+def home():
+    if 'user' not in session:
+        return redirect('/login')
+    return render_template('chat.html', user=session['user'])
 
 
 if __name__ == '__main__':

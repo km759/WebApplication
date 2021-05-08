@@ -19,3 +19,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - ./db:/docker-entrypoint-initdb.d/:ro
+
+  redis:
+    container_name: redis
+    image: redis:4.0.1-alpine
+    ports:
+      - 6379:6379
