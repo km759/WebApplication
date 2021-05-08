@@ -16,7 +16,10 @@ app.config['MYSQL_DATABASE_DB'] = 'OscarsMale'
 mysql.init_app(app)
 
 events = [
-
+    {
+        'todo' : 'Final Project',
+        'date' : '2021-05-10',
+    }
 ]
 
 
