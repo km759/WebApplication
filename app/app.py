@@ -38,6 +38,14 @@ def index():
 def sessions():
     return render_template('session.html')
 
+def messageReceived(methods=['GET', 'POST']):
+    print('Message was received!')
+
+@socketio.on('my event')
+def hendle_my_custom_event(json, methods=['GET', 'POST']):
+    print('Received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
+
 @app.route('/view/<int:oscar_id>', methods=['GET'])
 def record_view(oscar_id):
     cursor = mysql.get_db().cursor()
