@@ -2,6 +2,7 @@ from typing import List, Dict
 import simplejson as json
 from flask import Flask, request, Response, redirect
 from flask import render_template
+from flask_socketio import SocketIO
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
@@ -13,6 +14,8 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'OscarsMale'
+app.config['SECRET_KEY'] = 'abcdefg'
+socketio = SocketIO(app)
 mysql.init_app(app)
 
 events = [
@@ -31,6 +34,9 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
+@app.route('/session')
+def sessions():
+    return render_template('session.html')
 
 @app.route('/view/<int:oscar_id>', methods=['GET'])
 def record_view(oscar_id):
@@ -154,3 +160,4 @@ def api_delete(oscar_id) -> str:
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
+    socketio.run(app, debug=True)
