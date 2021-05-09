@@ -34,7 +34,7 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/chat')
+@app.route('/oscars/chat')
 def chat():
     username = request.args.get('username')
     room = request.args.get('room')
@@ -42,7 +42,7 @@ def chat():
     if username and room:
         return render_template('chat.html', username=username, room=room)
     else:
-        return redirect(url_for('home'))
+        return redirect(url_for('layout.html'))
 
 
 @socketio.on('send_message')
