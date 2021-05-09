@@ -34,6 +34,10 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
+@app.route('/oscars/session')
+def session():
+    return render_template('session.html')
+
 @app.route('/oscars/chat')
 def chat():
     username = request.args.get('username')
