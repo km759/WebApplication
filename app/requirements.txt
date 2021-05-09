@@ -4,5 +4,6 @@ simplejson
 Flask_SocketIO
 Flask-Session
 eventlet
-flask-socketio
+python-engineio==3.13.2
+python-socketio==4.6.0
 flask-cors
