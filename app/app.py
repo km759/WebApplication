@@ -2,13 +2,20 @@ from typing import List, Dict
 import simplejson as json
 from flask import Flask, request, Response, redirect, url_for
 from flask import render_template
+from flask_cors import CORS
 from flask_socketio import SocketIO, join_room, leave_room
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
 app = Flask(__name__)
+CORS(app)
 mysql = MySQL(cursorclass=DictCursor)
 
+cors = CORS(app, resources={
+    r"/*":{
+        "origins": "*"
+    }
+})
 app.config['MYSQL_DATABASE_HOST'] = 'db'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
