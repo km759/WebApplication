@@ -22,7 +22,7 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'OscarsMale'
 app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app, cors_allowed_origins="http://localhost:5000")
+socketio = SocketIO(app, cors_allowed_origins="http://localhost")
 mysql.init_app(app)
 
 events = [
