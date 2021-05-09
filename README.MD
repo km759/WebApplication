@@ -1,3 +1,9 @@
+Team: Kevin Marcjanik and Luis J Mejia Garcia
+Kevin: worked on the calendar
+Luis: worked on the chat app
+
+
+
 #Project Description
 This project is a homework assignment to teach how to get Pycharm setup with Docker, Flask, MYSQL
 #Postman Screenshot
