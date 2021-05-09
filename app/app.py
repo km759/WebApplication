@@ -34,7 +34,7 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/session')
+@app.route('/oscars/session')
 def sessions():
     return render_template('session.html', title='Session')
 
