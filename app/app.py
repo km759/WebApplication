@@ -34,9 +34,9 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/oscars/session', methods=['GET', 'POST'])
+@app.route('/oscars/session')
 def sessions():
-    return render_template('session.html')
+    return render_template('session.html', methods=['GET', 'POST'])
 
 def messageReceived():
     print('message was received!')
@@ -167,6 +167,5 @@ def api_delete(oscar_id) -> str:
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
     app.run(host='0.0.0.0', debug=True)
 
