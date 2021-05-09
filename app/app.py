@@ -14,7 +14,7 @@ app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'OscarsMale'
-app.config['SECRET_KEY'] = 'abcdefg'
+app.config['SECRET_KEY'] = 'asdfghjkl'
 socketio = SocketIO(app)
 mysql.init_app(app)
 
@@ -36,10 +36,10 @@ def index():
 
 @app.route('/oscars/session')
 def sessions():
-    return render_template('session.html', title='Session')
+    return render_template('session.html')
 
 def messageReceived(methods=['GET', 'POST']):
-    print('message was received!!!')
+    print('message was received!')
 
 @socketio.on('my event')
 def handle_my_custom_event(json, methods=['GET', 'POST']):
