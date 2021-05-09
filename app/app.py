@@ -36,7 +36,7 @@ def index():
 
 @app.route('/session')
 def sessions():
-    return render_template('session.html')
+    return render_template('session.html', title='Session')
 
 def messageReceived(methods=['GET', 'POST']):
     print('message was received!!!')
