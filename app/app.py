@@ -36,9 +36,9 @@ def index():
 
 @app.route('/oscars/session')
 def sessions():
-    return render_template('session.html', methods=['GET', 'POST'])
+    return render_template('session.html')
 
-def messageReceived():
+def messageReceived(methods=['GET', 'POST']):
     print('message was received!')
 
 @socketio.on('my event')
