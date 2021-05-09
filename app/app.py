@@ -1,8 +1,8 @@
 from typing import List, Dict
 import simplejson as json
-from flask import Flask, request, Response, redirect
+from flask import Flask, request, Response, redirect, url_for
 from flask import render_template
-from flask_socketio import SocketIO, send
+from flask_socketio import SocketIO, join_room, leave_room
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
@@ -15,7 +15,7 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_PORT'] = 3306
 app.config['MYSQL_DATABASE_DB'] = 'OscarsMale'
 app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app, cors_allowed_origins='*')
+socketio = SocketIO(app)
 mysql.init_app(app)
 
 events = [
@@ -34,17 +34,37 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/oscars/session', methods=['GET'])
-def sessions():
-    return render_template('session.html')
+@app.route('/chat')
+def chat():
+    username = request.args.get('username')
+    room = request.args.get('room')
 
-def messageReceived(methods=['GET', 'POST']):
-    print('message was received!!!')
+    if username and room:
+        return render_template('chat.html', username=username, room=room)
+    else:
+        return redirect(url_for('home'))
 
-@socketio.on('message')
-def handleMessage(msg):
-	print('Message: ' + msg)
-	send(msg, broadcast=True)
+
+@socketio.on('send_message')
+def handle_send_message_event(data):
+    app.logger.info("{} has sent message to the room {}: {}".format(data['username'],
+                                                                    data['room'],
+                                                                    data['message']))
+    socketio.emit('receive_message', data, room=data['room'])
+
+
+@socketio.on('join_room')
+def handle_join_room_event(data):
+    app.logger.info("{} has joined the room {}".format(data['username'], data['room']))
+    join_room(data['room'])
+    socketio.emit('join_room_announcement', data, room=data['room'])
+
+
+@socketio.on('leave_room')
+def handle_leave_room_event(data):
+    app.logger.info("{} has left the room {}".format(data['username'], data['room']))
+    leave_room(data['room'])
+    socketio.emit('leave_room_announcement', data, room=data['room'])
 
 @app.route('/view/<int:oscar_id>', methods=['GET'])
 def record_view(oscar_id):
