@@ -34,15 +34,15 @@ def index():
     result = cursor.fetchall()
     return render_template('index.html', title='Home', user=user, oscars=result)
 
-@app.route('/oscars/session')
+@app.route('/oscars/session', methods=['GET', 'POST'])
 def sessions():
     return render_template('session.html')
 
-def messageReceived(methods=['GET', 'POST']):
+def messageReceived():
     print('message was received!')
 
-@socketio.on('my event')
-def handle_my_custom_event(json, methods=['GET', 'POST']):
+@socketio.on('my event',  methods=['GET', 'POST'])
+def handle_my_custom_event(json):
     print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
 
