@@ -38,7 +38,7 @@ def index():
 def session():
     return render_template('session.html')
 
-@app.route('/oscars/chat')
+@app.route('/chat')
 def chat():
     username = request.args.get('username')
     room = request.args.get('room')
