@@ -2,7 +2,6 @@ from typing import List, Dict
 import simplejson as json
 from flask import Flask, request, Response, redirect
 from flask import render_template
-from flask_socketio import SocketIO
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
@@ -167,5 +166,6 @@ def api_delete(oscar_id) -> str:
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
     socketio.run(app, debug=True)
+    app.run(host='0.0.0.0', debug=True)
+

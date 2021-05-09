@@ -1,4 +1,6 @@
 Flask
 flask-mysql
 simplejson
-flask-socketio
+Flask_SocketIO
+Flask-Session
+eventlet
