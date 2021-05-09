@@ -2,6 +2,7 @@ from typing import List, Dict
 import simplejson as json
 from flask import Flask, request, Response, redirect
 from flask import render_template
+from flask_socketio import SocketIO
 from flaskext.mysql import MySQL
 from pymysql.cursors import DictCursor
 
