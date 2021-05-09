@@ -46,7 +46,7 @@ def chat():
     if username and room:
         return render_template('chat.html', username=username, room=room)
     else:
-        return render_template('layout.html', title='Home')
+        return render_template('index.html', title='Home')
 
 
 @socketio.on('send_message')
